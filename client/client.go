@@ -1,6 +1,8 @@
 package client
 
-import "bytes"
+import (
+	"bytes"
+)
 
 const defaultScratchSize = 64 * 1024
 
