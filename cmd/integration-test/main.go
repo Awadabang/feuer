@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strconv"
 	"strings"
 
 	"github.com/Awadabang/feuer/client"
@@ -55,7 +56,7 @@ func send(s *client.Simple) (sum int64, err error) {
 		}
 	}
 
-	return 0, nil
+	return sum, nil
 }
 
 func receive(s *client.Simple) (sum int64, err error) {
@@ -69,9 +70,19 @@ func receive(s *client.Simple) (sum int64, err error) {
 			return 0, err
 		}
 
-		ints := strings.Split(res, "\n")
+		ints := strings.Split(string(res), "\n")
+		for _, str := range ints {
+			if str == "" {
+				continue
+			}
+
+			i, err := strconv.Atoi(str)
+			if err != nil {
+				return 0, err
+			}
+
+			sum += int64(i)
+		}
 
 	}
-
-	return 0, nil
 }
